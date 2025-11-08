@@ -12,3 +12,4 @@ C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\refint\schedule.dll
 C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.pdb
 C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.genruntimeconfig.cache
 C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\ref\schedule.dll
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.sourcelink.json
