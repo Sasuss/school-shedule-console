@@ -1,4 +1,6 @@
-﻿Console.WriteLine("==== ROZVRH ====");
+﻿using System.Diagnostics;
+
+Console.WriteLine("==== ROZVRH ====");
 Console.WriteLine("1) Vytvořit nový rozvrh - volba tvorby rozvrhu.");
 Console.WriteLine("2) Odstranit již vytvořený rozvrh - odstranění uloženého rozvrhu. (BONUSOVÁ ČÁST - NEPOVINNÉ)");
 Console.WriteLine("3) Zobrazit již vytvořený rozvrh - zobrazení uloženého rozvrhu. (BONUSOVÁ ČÁST - NEPOVINNÉ)");
@@ -8,15 +10,16 @@ int choice;
 while (!int.TryParse(Console.ReadLine(), out choice) || choice > 4 || choice < 0)
     Console.WriteLine("Neplatné číslo, zadejte prosím znovu:");
 
-static void CreateSchedule()
+static (List<string[]> subjects, List<string[]> MonList, List<string[]> TueList, List<string[]> WenList, List<string[]> ThuList, List<string[]> FriList) CreateSchedule()
 {
-    List<string> subjects = new List<string>();
-    List<string> MonList = new List<string>();
-    List<string> TueList = new List<string>();
-    List<string> WenList = new List<string>();
-    List<string> ThuList = new List<string>();
-    List<string> FriList = new List<string>();
-    String[] Days = { "PONDĚLÍ", "ÚTERÝ", "STŘEDA", "ČTVRTEK", "PÁTEK" };
+    List<string[]> subjects = new List<string[]>();
+    string[] SubjData = new string[3]; // 0 = subj name, 1 = short name, 2 = print format
+    List<string[]> MonList = new List<string[]>();
+    List<string[]> TueList = new List<string[]>();
+    List<string[]> WenList = new List<string[]>();
+    List<string[]> ThuList = new List<string[]>();
+    List<string[]> FriList = new List<string[]>();
+    string[] Days = { "PONDĚLÍ", "ÚTERÝ", "STŘEDA", "ČTVRTEK", "PÁTEK" };
 
 
     Console.WriteLine("==== VYTVOŘENÍ ROZVRHU ====");
@@ -59,7 +62,10 @@ static void CreateSchedule()
             Console.Write($"Zkratka předmětu č. {a + 1} musí být jeden znak. Zadejte prosím znovu: ");
             SubjectShort = Console.ReadLine();
         }
-        subjects.Add(subjectName + " - " + "(" + SubjectShort + ")");
+        SubjData[0] = subjectName;
+        SubjData[1] = SubjectShort;
+        SubjData[2] = subjectName + " - " + "(" + SubjectShort + ")";
+        subjects.Add(SubjData);
     }
 
     /// ASSIGN SUBJECTS TO DAYS
@@ -105,19 +111,21 @@ static void CreateSchedule()
                     FriList.Add(subjects[subjectChoice - 1]);
                     break;
             }
-            Console.WriteLine("MonList " + string.Join(", ", MonList));
-            Console.WriteLine("subjects " + string.Join(", ", subjects));
-
 
         }
     }
-    
+
+    return (subjects, MonList, TueList, WenList, ThuList, FriList);
+
+
+
 }
 
 switch (choice)
 {
     case 1:
-        CreateSchedule();
+        var(subjects, MonList, TueList, WenList, ThuList, FriList) = CreateSchedule(); // ai helped me with this (i had no idea how tuples in c# worked)
+
         break;
     case 2:
         //DeleteSchedule();
