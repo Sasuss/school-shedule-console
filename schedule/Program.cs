@@ -13,7 +13,6 @@ while (!int.TryParse(Console.ReadLine(), out choice) || choice > 4 || choice < 0
 static (List<string[]> subjects, List<string[]> MonList, List<string[]> TueList, List<string[]> WenList, List<string[]> ThuList, List<string[]> FriList) CreateSchedule()
 {
     List<string[]> subjects = new List<string[]>();
-    string[] SubjData = new string[3]; // 0 = subj name, 1 = short name, 2 = print format
     List<string[]> MonList = new List<string[]>();
     List<string[]> TueList = new List<string[]>();
     List<string[]> WenList = new List<string[]>();
@@ -44,7 +43,8 @@ static (List<string[]> subjects, List<string[]> MonList, List<string[]> TueList,
 
     /// ADD SUBJECTS
     for (int a = 0; a < subjectCount; a++)
-    {   
+    {
+        string[] SubjData = new string[3]; // 0 = subj name, 1 = short name, 2 = print format
         Console.Write($"Zadejte název předmětu č. {a + 1}: ");
         string subjectName = Console.ReadLine();
         while (string.IsNullOrWhiteSpace(subjectName)) // musi to vypnit
@@ -79,13 +79,14 @@ static (List<string[]> subjects, List<string[]> MonList, List<string[]> TueList,
         }
         /// CHOOSE SUBJECTS FOR DAY
         for (int i = 0; i < SubjectsForDay; i++)
-        {
-            int index = 1;
-            foreach (var subject in subjects) /// DISPLAY SUBJECTS
+        {   
+            int index = 0;
+            foreach (string[] subject in subjects) /// DISPLAY SUBJECTS
             {
-                Console.WriteLine(index + ") " + subject);
+                Console.WriteLine((index + 1) + ") " + subject[2]);
                 index++;
             }
+
             Console.WriteLine($"Zadejte předmět na den {Days[day]} {i + 1}. hodinu");
             int subjectChoice;
             while (!int.TryParse(Console.ReadLine(), out subjectChoice) || subjectChoice < 1 || subjectChoice > subjects.Count)
