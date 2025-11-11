@@ -1,0 +1,15 @@
+C:\skolacijak\ostrece\schedule\schedule\bin\Debug\net8.0\schedule.exe
+C:\skolacijak\ostrece\schedule\schedule\bin\Debug\net8.0\schedule.deps.json
+C:\skolacijak\ostrece\schedule\schedule\bin\Debug\net8.0\schedule.runtimeconfig.json
+C:\skolacijak\ostrece\schedule\schedule\bin\Debug\net8.0\schedule.dll
+C:\skolacijak\ostrece\schedule\schedule\bin\Debug\net8.0\schedule.pdb
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.GeneratedMSBuildEditorConfig.editorconfig
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.AssemblyInfoInputs.cache
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.AssemblyInfo.cs
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.csproj.CoreCompileInputs.cache
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.sourcelink.json
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.dll
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\refint\schedule.dll
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.pdb
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\schedule.genruntimeconfig.cache
+C:\skolacijak\ostrece\schedule\schedule\obj\Debug\net8.0\ref\schedule.dll
