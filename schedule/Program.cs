@@ -87,16 +87,12 @@ static void EditSchedule(List<string[]> subjects, List<string[]>[] SubjectsByDay
     Console.WriteLine("Zadejte den změny předmetu:");
     for (int i = 0; i < SubjectsByDays.Length; i++)
     { // dodelat ne switch
-        string dayName = i switch
-        {
-            0 => "PONDĚLÍ",
-            1 => "ÚTERÝ",
-            2 => "STŘEDA",
-            3 => "ČTVRTEK",
-            4 => "PÁTEK",
-            _ => ""
-        };
-        Console.WriteLine($"{i + 1}) {dayName}");
+
+        Console.WriteLine("1) Pondělí");
+        Console.WriteLine("2) Úterý");
+        Console.WriteLine("3) Středa");
+        Console.WriteLine("4) Čtvrtek");
+        Console.WriteLine("5) Pátek");
         int day;
         while (!int.TryParse(Console.ReadLine(), out day) || i < 1 || i > SubjectsByDays.Length)
         {
@@ -107,7 +103,7 @@ static void EditSchedule(List<string[]> subjects, List<string[]>[] SubjectsByDay
 
         Console.WriteLine("Kolikátá hodina má být v rozvrhu změněna?");
         int hour;
-        while (!int.TryParse(Console.ReadLine(), out hour) || hour < 1 || hour > SubjectsByDays[i].Count)
+        while (!int.TryParse(Console.ReadLine(), out hour) || hour < 0 || hour > SubjectsByDays[i].Count)
         {
             Console.WriteLine("Neplatné číslo, zadejte prosím znovu:");
         }
@@ -125,7 +121,7 @@ static void EditSchedule(List<string[]> subjects, List<string[]>[] SubjectsByDay
             Console.WriteLine("Neplatné číslo, zadejte prosím znovu:");
         }
 
-        SubjectsByDays[day][hour] = subjects[newSubject - 1];
+        SubjectsByDays[day-1][hour] = subjects[newSubject - 1];
     }
 }
 void ViewSchedule(List<string[]>[] SubjectsByDays, string className)
@@ -166,12 +162,94 @@ void ViewSchedule(List<string[]>[] SubjectsByDays, string className)
 
 }
 
+void PrintDays()
+{
+    Console.WriteLine("1) Po");
+    Console.WriteLine("2) Út");
+    Console.WriteLine("3) St");
+    Console.WriteLine("4) Čt");
+    Console.WriteLine("5) Pá");
+}
+
 void ShowSubjects(List<string[]> subjects)
 {
     Console.WriteLine("==== OZNAČENÍ PŘEDMĚTŮ ====");
     for (int i = 0; i < subjects.Count; i++)
     {
         Console.WriteLine($"{subjects[i][2]}");
+    }
+}
+
+void ViewScheduleByDay(List<string[]>[] SubjectsByDays)
+{
+    Console.WriteLine("==============================");
+    Console.WriteLine("==== VYBRANÝ PRACOVNÍ DEN ====");
+    Console.WriteLine("Zadejte den, pro který chcete zobrazit rozvrh:");
+    PrintDays();
+
+    int day;
+
+    while (!int.TryParse(Console.ReadLine(), out day) || day < 1 || day > 5)
+    {
+        Console.WriteLine("Neplatné číslo, zadejte prosím znovu:");
+    }
+
+    Console.WriteLine("==========================");
+    string shortDay = day switch
+    {
+        1 => "Po",
+        2 => "Út",
+        3 => "St",
+        4 => "Čt",
+        5 => "Pá",
+        _ => ""
+    };
+    switch (day)
+    {
+        case 1:
+            Console.WriteLine("Rozvrh pro Pondělí:");
+            break;
+        case 2:
+            Console.WriteLine("Rozvrh pro Úterý:");
+            break;
+        case 3:
+            Console.WriteLine("Rozvrh pro Středu:");
+            break;
+        case 4:
+            Console.WriteLine("Rozvrh pro Čtvrtek:");
+            break;
+        case 5:
+            Console.WriteLine("Rozvrh pro Pátek:");
+            break;
+    }
+
+    Console.WriteLine("   |1||2||3||4||5||6||7||8|");
+    Console.WriteLine("===========================");
+    Console.Write(shortDay + "|");
+    for (int j = 0; j < 8; j++)
+    {
+        if (j < SubjectsByDays[day-1].Count)
+            Console.Write("|" + SubjectsByDays[day-1][j][1] + "|");
+        else
+        {
+            break;
+        }
+
+    }
+    Console.WriteLine();
+    Console.WriteLine("---------------------------");
+}
+
+void LocateSubject(List<string[]>[] SubjectsByDays)
+{
+    Console.WriteLine("=========================");
+    Console.WriteLine("==== URČENÍ PŘEDMĚTU ====");
+    Console.WriteLine("Zadejte den hledaného předmětu:");
+    PrintDays();
+    
+    while (!int.TryParse(Console.ReadLine(), out int day) || day < 1 || day > 5)
+    {
+        Console.WriteLine("Neplatné číslo, zadejte prosím znovu:");
     }
 }
 
@@ -208,10 +286,10 @@ void MainMenu(List<string[]> subjects, List<string[]>[] SubjectsByDays, string c
             ViewSchedule(SubjectsByDays, className);
             break;
         case 3:
-            //ShowSubjects();
+            ShowSubjects(subjects);
             break;
         case 4:
-            //ViewScheduleByDay();
+            ViewScheduleByDay(SubjectsByDays);
             break;
         case 5:
             //LocateSubject();
