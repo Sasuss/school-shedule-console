@@ -1,4 +1,7 @@
-﻿
+﻿using System.IO;
+using System.Text.Json;
+
+
 const int NAME = 0;
 const int SHORT = 1;
 const int DISPLAY = 2;
@@ -87,19 +90,20 @@ static (List<string[]> subjects, List<string[]>[] SubjectsByDays, string classNa
 static int GetIntInput(string text, int from = 0, int to = 0)
 {
     int number;
-    if (from == 0 && to == 0)
+
+    while (true)
     {
-        while (!int.TryParse(Console.ReadLine(), out number))
+        if (int.TryParse(Console.ReadLine(), out number))
         {
-            Console.WriteLine(text);
+            if (from == 0 && to == 0)
+                return number;
+
+            if (number >= from && number <= to)
+                return number;
         }
-    }
-    
-    while (!int.TryParse(Console.ReadLine(), out number) || number < from || number > to)
-    {
+
         Console.WriteLine(text);
     }
-    return number;
 }
 static void EditSchedule(List<string[]> subjects, List<string[]>[] SubjectsByDays)
 {
@@ -206,7 +210,7 @@ void ViewScheduleByDay(List<string[]>[] SubjectsByDays)
     Console.WriteLine("Zadejte den, pro který chcete zobrazit rozvrh:");
     PrintDays();
 
-    var day = GetIntInput("Neplatné číslo, zadejte prosím znovu:", 1, 5)
+    var day = GetIntInput("Neplatné číslo, zadejte prosím znovu:", 1, 5);
 
 
     Console.WriteLine("==========================");
@@ -423,6 +427,46 @@ void SearchSubject(List<string[]>[] SubjectsByDays, List<string[]> subjects, str
     }
 }
 
+void SaveSchedule(List<string[]>[] SubjectsByDays, List<string[]> subjects, string className)
+{
+    var newSchedule = new // objekt ktery ukladane
+    {
+        ClassName = className,
+        Subjects = subjects,
+        Schedule = SubjectsByDays
+    };
+
+    object[] allSchedules; // vsechny ulozene rozvrhy
+
+    if (File.Exists("schedule_save.json")) // vytahneme jiz ulozene rozvrhy
+    {
+        string existing = File.ReadAllText("schedule_save.json");
+
+
+        JsonElement[] temp = JsonSerializer.Deserialize<JsonElement[]>(existing);
+
+        allSchedules = temp.Cast<object>().ToArray();
+        
+
+    }
+    else
+    {
+        allSchedules = Array.Empty<object>();
+    }
+    /// pridame novy rozvrh do vsech rozvrhu
+    allSchedules = allSchedules.Append((object)newSchedule).ToArray();
+
+    
+    string json = JsonSerializer.Serialize(allSchedules, new JsonSerializerOptions
+    {
+        WriteIndented = true
+    });
+
+    File.WriteAllText("schedule_save.json", json);
+
+    Console.WriteLine("Rozvrh uložen.");
+}
+
 void MainMenu(List<string[]> subjects, List<string[]>[] SubjectsByDays, string className)
 {
     bool running = true;
@@ -464,8 +508,8 @@ void MainMenu(List<string[]> subjects, List<string[]>[] SubjectsByDays, string c
                 LocateSubject(SubjectsByDays);
                 break;
             case 6:
-                running = false;
-                return;
+                System.Environment.Exit(1);
+                break;
             case 7:
                 AddOrRemoveSubject(subjects);
                 break;
@@ -479,10 +523,10 @@ void MainMenu(List<string[]> subjects, List<string[]>[] SubjectsByDays, string c
                 SearchSubject(SubjectsByDays, subjects, className);
                 break;
             case 11:
-                //SaveSchedule();
+                SaveSchedule(SubjectsByDays, subjects, className);
                 break;
             case 12:
-                //MainMenu();
+                running = false;
                 break;
             default:
                 Console.WriteLine("Neplatná volba.");
